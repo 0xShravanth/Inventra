@@ -87,7 +87,19 @@ You do **not** need Railway’s PostgreSQL plugin if you use Neon.
 4. **Networking** → **Generate Domain** (e.g. `https://inventra-production-xxxx.up.railway.app`).
 5. **Deploy** — Railway builds from `backend/Dockerfile` and runs the API.
 
-### 3. Verify the backend
+### 3. Confirm Docker build settings (Railway)
+
+Railway should detect `backend/railway.toml` and build with Docker:
+
+| Setting | Value |
+|---------|--------|
+| Root Directory | `backend` |
+| Builder | Dockerfile (`backend/Dockerfile`) |
+| Health check | `/health` |
+
+If Railway uses Nixpacks instead of Docker: **Settings** → **Builder** → **Dockerfile**.
+
+### 4. Verify the backend
 
 Open in a browser:
 
@@ -97,6 +109,41 @@ Open in a browser:
 Tables are created automatically on first startup (`create_all` in `main.py`).
 
 In Neon **SQL Editor**, confirm tables exist after deploy: `customers`, `products`, `orders`, `order_items`.
+
+---
+
+## Deploy dockerized backend locally (test before Railway)
+
+Use this to run the same container image locally, connected to **Neon**.
+
+### 1. Create `backend/.env`
+
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@ep-xxxx.region.aws.neon.tech/neondb?sslmode=require
+```
+
+### 2. Build and run with Compose
+
+From the repo root:
+
+```powershell
+docker compose -f docker-compose.backend.yml up --build
+```
+
+Or build/run manually:
+
+```powershell
+cd "C:\Drive D\vibe projects\inventory-system\backend"
+docker build -t inventra-backend .
+docker run --rm -p 8000:8000 --env-file .env inventra-backend
+```
+
+### 3. Test
+
+- http://localhost:8000/health  
+- http://localhost:8000/docs  
+
+Stop: `Ctrl+C`, then `docker compose -f docker-compose.backend.yml down`
 
 ---
 

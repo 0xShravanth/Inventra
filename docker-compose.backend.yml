@@ -1,0 +1,24 @@
+# Backend API only (uses Neon or any external Postgres via DATABASE_URL).
+# Usage:
+#   1. Create backend/.env with DATABASE_URL=postgresql://...@neon.tech/...?sslmode=require
+#   2. docker compose -f docker-compose.backend.yml up --build
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: inventory_backend
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - '8000:8000'
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'python', '-c', "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
