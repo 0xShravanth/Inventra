@@ -1,0 +1,113 @@
+/* frontend/src/index.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root,
+  .dark {
+    --background: 240 6% 4%;
+    --foreground: 0 0% 100%;
+    --surface: 240 6% 11%;
+    --panel: 240 5% 7%;
+    --primary: 239 84% 67%;
+    --success: 160 84% 39%;
+    --warning: 38 92% 50%;
+    --danger: 347 87% 61%;
+    --border: 0 0% 100% / 0.08;
+    --muted: 0 0% 100% / 0.5;
+    --popover: 13 13 15;
+    --popover-foreground: 248 248 252;
+    --card: 17 17 19;
+    --card-foreground: 255 255 255;
+    --accent: 99 102 241 / 0.15;
+    --accent-foreground: 255 255 255;
+    --muted-foreground: 160 160 180;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply border-white/10;
+  }
+
+  html {
+    @apply scroll-smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply min-h-screen bg-[#0A0A0B] font-sans text-white antialiased;
+    overflow-x: hidden;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  #root {
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  img,
+  video {
+    will-change: auto;
+  }
+
+  ::selection {
+    @apply bg-indigo-500/30 text-white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  select {
+    @apply bg-[#111113] text-white;
+  }
+
+  select option {
+    background-color: #111113;
+    color: #ffffff;
+  }
+}
+
+.framer-transition {
+  will-change: transform, opacity;
+}
+
+/* Radix portal dark theme overrides */
+[data-radix-popper-content-wrapper] {
+  --background: 13 13 15;
+  --foreground: 255 255 255;
+  --card: 17 17 19;
+  --card-foreground: 255 255 255;
+  --popover: 17 17 19;
+  --popover-foreground: 255 255 255;
+  --border: 255 255 255 / 0.08;
+  --accent: 99 102 241 / 0.15;
+  --accent-foreground: 255 255 255;
+  --muted: 30 30 35;
+  --muted-foreground: 160 160 180;
+}
+
+[data-radix-popper-content-wrapper] > * {
+  background-color: #111113 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
