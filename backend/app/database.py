@@ -7,7 +7,18 @@ from .config import settings
 from .models.base import Base
 
 
-engine = create_engine(settings.DATABASE_URL, future=True)
+def _normalize_database_url(url: str) -> str:
+    # Railway/Neon sometimes provide postgres://; SQLAlchemy expects postgresql://
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+    # Neon requires SSL for remote connections
+    if "neon.tech" in url and "sslmode=" not in url:
+        separator = "&" if "?" in url else "?"
+        url = f"{url}{separator}sslmode=require"
+    return url
+
+
+engine = create_engine(_normalize_database_url(settings.DATABASE_URL), future=True)
 
 SessionLocal = sessionmaker(
     autocommit=False,
