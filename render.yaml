@@ -1,0 +1,15 @@
+# Render Blueprint: dockerized FastAPI backend + Neon (DATABASE_URL set in dashboard)
+# Docs: https://render.com/docs/docker
+services:
+  - type: web
+    name: inventra-api
+    runtime: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: PORT
+        value: "8000"

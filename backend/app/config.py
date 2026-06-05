@@ -13,6 +13,7 @@ class Settings(BaseSettings):
 
     model_config = ConfigDict(
         env_prefix="",
+        # Prefer process env (Docker / Render / Railway); fall back to backend/.env for local dev
         env_file=str(ENV_FILE_PATH) if ENV_FILE_PATH.exists() else None,
         env_file_encoding="utf-8",
         extra="ignore",

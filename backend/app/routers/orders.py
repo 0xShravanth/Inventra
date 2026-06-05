@@ -24,7 +24,7 @@ router = APIRouter(prefix="/api/orders", tags=["Orders"])
 
 
 @router.post(
-    "/",
+    "",
     response_model=OrderDetailResponse,
     status_code=status.HTTP_201_CREATED,
 )
@@ -68,7 +68,7 @@ def create_order_route(
 
 
 @router.get(
-    "/",
+    "",
     response_model=List[OrderSummary],
 )
 def list_orders(

@@ -1,7 +1,9 @@
 version: '3.8'
 
 services:
+  # Optional local Postgres — only with: docker compose --profile local-db up
   db:
+    profiles: [local-db]
     image: postgres:15-alpine
     container_name: inventory_db
     environment:
@@ -23,14 +25,12 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: inventory_backend
-    depends_on:
-      db:
-        condition: service_healthy
+    env_file:
+      - .env
     environment:
       DATABASE_URL: ${DATABASE_URL}
     ports:
       - '8000:8000'
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
 
   frontend:
     build:

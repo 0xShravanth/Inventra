@@ -12,14 +12,21 @@ from app.routers.products import router as products_router
 app = FastAPI(
     title="Inventory & Order Management API",
     version="1.0.0",
+    redirect_slashes=False,
 )
 
+# credentials=False: required when not using cookies; avoids invalid * + credentials combo
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://inventra-hsvc.vercel.app",
+        "http://localhost:5173",
+        "http://localhost:3000",
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_methods=["*"],
     allow_headers=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
 )
 
 app.include_router(products_router)
